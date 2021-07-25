@@ -1,0 +1,78 @@
+@font-face {
+  font-family: 'Latin Modern Roman';
+  src: url('fonts/lmroman-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Latin Modern Roman';
+  src: url('fonts/lmroman-bolditalic-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Latin Modern Roman';
+  src: url('fonts/lmroman-bold-webfont.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Latin Modern Roman';
+  src: url('fonts/lmroman-italic-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Latin Modern Roman Caps';
+  src: url('fonts/lmromancaps-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Latin Modern Mono';
+  src: url('fonts/lmmono-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.tex, .tex .rm {
+  font-family: "Latin Modern Roman", serif;
+  font-weight: normal;
+  font-style: normal;
+}
+.tex .it {
+  font-family: "Latin Modern Roman", serif;
+  font-weight: normal;
+  font-style: italic;
+}
+.tex .sc {
+  font-family: "Latin Modern Roman Caps", serif;
+  font-weight: normal;
+  font-style: normal;
+}
+.tex .tt, .tex a {
+  font-family: "Latin Modern Mono", monospace;
+  font-weight: normal;
+  font-style: normal;
+}
+.tex sup {
+  font-size: 75%;
+}
+
+table.bib tr > td {
+  vertical-align: top;
+}
+table.bib tr > td:first-child {
+  text-align: right;
+}
+table.bib tr > td:last-child {
+  text-align: left;
+  padding-left: 0.5em;
+}
