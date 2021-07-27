@@ -12,20 +12,21 @@ const round = x => x.toFixed(4).replace(/\.?0*$/,'');
 const last = xs => xs[xs.length-1];
 
 const pages = [
-  ['about','About me'],
+  ['about','About me','tex'],
   ['contact','Contact me'],
-  ['edu','Education'],
-  ['bib','Publications'],
+  ['edu','Education','tex'],
+  ['bib','Publications','tex'],
   ['research','Research']
 ];
 
 let main;
 function load_page(page) {
-  console.log(page);
-  if (page)
-    page = pages.find(x => x[0]==page);
-  page = page ? page[0] : pages[0][0];
-  console.log(page);
+  let def = null;
+  if (page) def = pages.find(x => x[0]===page);
+  if (!def) {
+    def = pages[0];
+    page = def[0];
+  }
   fetch('pages/'+page+'.html', { method: 'GET' })
   .then(r => {
     if (r.ok) return r.text();
@@ -33,7 +34,7 @@ function load_page(page) {
   })
   .then(r => {
     main.innerHTML = r;
-    main.className = page;
+    main.className = def[2] || '';
     const s = window.history.state;
     ( (s && s.page===page)
       ? window.history.replaceState

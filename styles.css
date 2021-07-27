@@ -87,26 +87,18 @@ a:hover { text-decoration: underline; }
 
 .nb { white-space: nowrap; }
 
-.tex, .tex .rm,
-#main.about,
-#main.edu,
-#main.bib
-{
+.tex, .tex .rm {
   font-family: "Latin Modern Roman", "Times New Roman", serif;
   font-weight: normal;
   font-style: normal;
 }
-.tex .it {
-  font-family: "Latin Modern Roman", "Times New Roman", serif;
-  font-weight: normal;
+.it {
   font-style: italic;
 }
-.tex .bf {
-  font-family: "Latin Modern Roman", "Times New Roman", serif;
+.bf {
   font-weight: bold;
-  font-style: normal;
 }
-.tex .sc {
+.sc {
   font-family: "Latin Modern Roman Caps", serif;
   font-weight: normal;
   font-style: normal;
