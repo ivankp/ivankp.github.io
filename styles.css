@@ -87,7 +87,11 @@ a:hover { text-decoration: underline; }
 
 .nb { white-space: nowrap; }
 
-.tex, .tex .rm {
+.tex, .tex .rm,
+#main.about,
+#main.edu,
+#main.bib
+{
   font-family: "Latin Modern Roman", "Times New Roman", serif;
   font-weight: normal;
   font-style: normal;

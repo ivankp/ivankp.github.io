@@ -16,10 +16,7 @@ const pages = [
   ['contact','Contact me'],
   ['edu','Education'],
   ['bib','Publications'],
-  ['research','Research'],
-  ['skills','Skills'],
-  ['demos','Demos'],
-  ['hobbies','Hobbies']
+  ['research','Research']
 ];
 
 let main;
@@ -36,6 +33,7 @@ function load_page(page) {
   })
   .then(r => {
     main.innerHTML = r;
+    main.className = page;
     const s = window.history.state;
     ( (s && s.page===page)
       ? window.history.replaceState
