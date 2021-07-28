@@ -34,6 +34,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'MathJax_Math-italic';
+  src: url('fonts/MathJax_Math-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
 
 body { margin: 8px; border: 0; padding: 0; }
 div { margin: 0; border: 0; padding: 0; }
@@ -107,6 +113,11 @@ a:hover { text-decoration: underline; }
   font-family: "Latin Modern Mono", monospace;
   font-weight: normal;
   font-style: normal;
+}
+.m {
+  font-family: "MathJax_Math-italic", "Latin Modern Roman", "Times New Roman", serif;
+  font-weight: normal;
+  font-style: italic;
 }
 .tex sup {
   font-size: 75%;
