@@ -81,11 +81,17 @@ a:hover { text-decoration: underline; }
   overflow-y: auto;
   text-align: left;
   max-width: 1000px;
+  margin-right: 8px;
 }
 #main > p {
   text-indent: 1.5em;
   text-align: justify;
   margin: 0.25em 0;
+}
+#main > ul {
+  text-align: justify;
+  margin: 0.25em 0;
+  padding-left: 2.75em;
 }
 #main > :first-child {
   margin-top: 0;

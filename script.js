@@ -16,7 +16,9 @@ const pages = [
   ['contact','Contact me'],
   ['edu','Education','tex'],
   ['bib','Publications','tex'],
-  ['research','Research']
+  ['research','Research'],
+  ['http://otterness-pi.cs.unc.edu:9099/','Stocks app'],
+  ['tdi0','TDI project','tex']
 ];
 
 let main;
@@ -56,11 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
     for (const [page,name] of pages) {
       const li = make(ul,'li','a');
       li.textContent = name;
-      li.href = '?'+encodeURIComponent(page);
-      li.onclick = e => {
-        e.preventDefault();
-        load_page(page);
-      };
+      if (page.startsWith('http')) {
+        li.href = page;
+        li.target = '_blank';
+      } else {
+        li.href = '?'+encodeURIComponent(page);
+        li.onclick = e => {
+          e.preventDefault();
+          load_page(page);
+        };
+      }
     }
   }
 });

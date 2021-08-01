@@ -1,0 +1,164 @@
+<h1>Project description</h1>
+<p>The recent decades have seen a rise in the popularity of board games, with
+thousands of new games being developed and published every year. With some
+games performing better on the market in terms of sparking public interest and
+sales, both developers and publishers must be interested in quantifying the
+characteristics that drive the demand, as well as how the relative importance
+of these characteristics evolves over time.
+The plots below demonstrate the large recent increase in the numbers of newly
+produced games.</p>
+
+<img src="https://github.com/ivankp/tdi0/raw/main/ngames_1900.png" width="350">
+<img src="https://github.com/ivankp/tdi0/raw/main/ngames_1990.png" width="350">
+
+<p>As a board gaming enthusiast, I want to see the companies producing games to
+thrive. The financial success of the companies can allow them to lower the cost
+of games, as well as to take risk with publishing more experimental games,
+which promotes innovation in game design.</p>
+
+<p>I propose conducting a study to analyze the trends of the board games
+market. The central objective of this study is to identify metrics that can aid
+in deciding how to prioritize the production of new games. The answer can be
+found by analyzing correlations between the characteristics of the games and
+several performance metrics.</p>
+
+<p>The characteristics of the games can be categorical, such as game mechanics
+and themes, or numerical, such as the number of components, expected playtime,
+target player age, number of players, etc. Poll ratings and reviews can be used
+as performance metrics.</p>
+
+<p>A large data set including this information can be obtained from the popular
+Board Game Geek (BGG) website
+[<a href="https://boardgamegeek.com/" target="_blank">https://boardgamegeek.com/</a>].
+
+<p>An additional characteristic of game <span class="bf">complexity</span>
+can be estimated by applying
+<span class="bf">natural language processing</span>
+techniques to the text of the rules of the games.</p>
+
+<p>Additional performance metrics can also be found. For example,
+<span class="bf">popularity</span>
+can be assessed based on Google search statistics
+[<a href="https://trends.google.com/" target="_blank">https://trends.google.com/</a>].
+<span class="bf">Sales</span> performance can be obtained by scraping Amazon.</p>
+
+<p>A number of meta-characteristics can be derived.
+A <span class="bf">principal component analysis</span> (PCA)
+can be performed to identify the most descriptive linear combinations within
+the space of available characteristics. A multivariate model, e.g. a neural
+network, can be trained to predict the expected game rating, which may quantify
+the expected overall reception of the game.</p>
+
+<p>Ultimately, a prediction of the game performance can be quantified by the
+model-estimated rating and the trends in the principal characteristics.</p>
+
+<h1>Technical details and challenges</h1>
+
+<p>A 1,229 MB dataset, representing 313,248 games, can be assembled using the
+BGG XML API
+[<a href="https://boardgamegeek.com/wiki/page/BGG_XML_API" target="_blank">https://boardgamegeek.com/wiki/page/BGG_XML_API</a>].
+To do this, I wrote a <span class="tt">bash</span> script
+[<a href="https://github.com/ivankp/tdi0/blob/main/scrape.sh" target="_blank">link</a>]
+that iterated over the <span class="tt">gameid</span> numbers and downloaded
+XML data in groups of 100 games using <span class="tt">curl</span>. I then
+wrote a python script
+[<a href="https://github.com/ivankp/tdi0/blob/main/merge.py" target="_blank">link</a>]
+that parsed the XML files and aggregated the most relevant information about
+all the games in a single JSON file. The JSON file can be easily imported into
+a Pandas DataFrame in python and examined visually in a Jupyter notebook
+[<a href="https://github.com/ivankp/tdi0/blob/main/pandas.ipynb" target="_blank">link</a>].</p>
+
+<p>As I came up with the project while working on the TDI fellowship challenge,
+the project is currently in the exploratory stage, in which the most relevant
+information for the analysis will be identified.</p>
+
+<p>A part of the initial stage is data cleaning. Some game entries in the BGG
+dataset lack some information. For example, not all games have a list of the
+mechanics they employ. As I expect the mechanics to be one of the central
+characteristics, entries lacking this information can be filtered out. In
+pandas this can be done as follows:</p>
+<p><span class="tt">
+df_clean = df[ df.apply(lambda row: len(row['mechanics']) &gt; 0, axis=1) ]
+</span></p>
+
+<p>The games that are too old, e.g. published before the advent of the
+internet, may have different properties from the modern ones and may bias the
+analysis if included. Therefore, I think is it necessary to include only the
+games published after the year 2000. Fortunately, older games form only a
+relatively small (12.5%) subset of the data.</p>
+
+<p>After the data cleaning stage, the project can proceed as follows:</p>
+<ul>
+  <li>Scrape historic search data for the selected games from Google.</li>
+  <li>Scrape historic sales data for the selected games from Amazon.</li>
+  <li>Scrape rulebooks to obtain a complexity measure for each game.</li>
+  <li>Perform PCA to identify the most relevant game characteristics.
+    This can be done using scikit-learn in python.</li>
+  <li>Train a multivariate model to predict performance metrics from the
+    characteristics.</li>
+  <li>Explore trends in the desirability of characteristics quantified by the
+    model as a function of time.</li>
+</ul>
+
+<h1>Preliminary plots</h1>
+<h2>Common game mechanics</h2>
+<img src="https://github.com/ivankp/tdi0/raw/main/mech_freq.png" width="600">
+
+<p>This plot shows a histogram identifying the 10 most commonly used game
+mechanics. The horizontal axis shows the numbers games making use of the
+corresponding mechanics published between years 2000 and 2021 inclusively.<p>
+
+<p>The plot shows that a few mechanics are very common and account for most games.
+This is an example of the
+<a href="https://en.wikipedia.org/wiki/Pareto_principle" target="_blank" class="rm">
+Pareto principle</a>.
+This may simplify the PCA later on, as rare mechanics may not hold much
+predictive power and may be discarded, reducing the dimensionality of the
+problem.</p>
+
+<h2>Average rating over time</h2>
+<img src="https://github.com/ivankp/tdi0/raw/main/mech_avg_rating.png" width="600">
+
+<p>This plots shows the average BGG rating of games published between 2000 and
+2021 categorized by the mechanics they make use of.</p>
+
+<p>The plot indicates a number of effects.
+The first one is that there appears to be a decrease in the rating (which is
+likely to be correlated with popularity and sales) of the “Hand Management”
+games in comparison to the “Variable Player Powers”, “Set Collection”, and
+“Cooperative” games. While being the most utilized mechanics, “Dice Rolling”
+score approximately the lowest independently of time.
+</p>
+
+<p>The second observation that can be made, is that there appears to be a
+latency in acceptance of new games.
+It is unlikely that in reality games published in 2010 were objectively better
+than those from 2015 or 2020.
+In fact, anyone following the developments in the field of board games would
+conclude the opposite.
+The most likely explanation for the increase of the average ratings towards
+2010 and subsequent apparent decrease is that it takes time for people to
+experience new games more fully, creating a latency of about 5 to 10 years in
+rating polls.
+Before conducting a multivariate analysis, an adjusted rating measure may be
+created to account for this effect.</p>
+
+<p>Potential outliers may still be present in the data set as suggested by the
+peak in the average rating of cooperative games in 2011.
+A closer look at the list of the games in that subset in need.</p>
+
+<h2>Overlap between mechanics</h2>
+<img src="https://github.com/ivankp/tdi0/raw/main/mech_overlap.png" width="500">
+
+<p>The matrix above shows in color the fractions of games with each mechanics
+that make use of another mechanics for the 50 most common types of mechanics.
+The numbers are normalized across every row by the total number of games
+utilizing that mechanics.
+The diagonal elements show fractions of the games listed in the data set as
+making use of only 1 type of mechanics.</p>
+
+<p>The presence of fairly large off-diagonal elements indicates correlation
+between different types of mechanics. This is a good case for a PCA analysis
+that would project out such correlations reducing the dimensionality of the
+problem.</p>
+
