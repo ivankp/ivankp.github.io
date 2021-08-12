@@ -51,8 +51,15 @@ window.onpopstate = function(e) {
 
 document.addEventListener('DOMContentLoaded', () => {
   main = _id('main');
-  { const search = window.location.search.match(/(?<=\?)[^&]+/);
-    load_page(search ? decodeURIComponent(search[0]) : null);
+  { let x = window.location.search;
+    if (x.length>0 && x[0]==='?') {
+      let n = x.indexOf('&',1);
+      if (n === -1) n = x.length;
+      x = x.substring(1,n);
+    } else {
+      x = null;
+    }
+    load_page(x);
   }
   { const ul = make(_id('nav'),'ul');
     for (const [page,name] of pages) {
