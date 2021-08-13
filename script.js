@@ -17,7 +17,6 @@ const pages = [
   ['edu','Education','tex'],
   ['bib','Publications','tex'],
   ['research','Research'],
-  ['http://otterness-pi.cs.unc.edu:9099/','Stocks app'],
   ['tdi0','TDI project','tex']
 ];
 
