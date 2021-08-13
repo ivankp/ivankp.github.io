@@ -38,7 +38,7 @@ function load_page(page) {
     main.innerHTML = r;
     main.className = def[2] || '';
     const s = window.history.state;
-    ( (s && s.page===page)
+    ( (!s || s.page===page)
       ? window.history.replaceState
       : window.history.pushState
     ).call( window.history, { page }, '', '?'+encodeURIComponent(page) );
@@ -51,6 +51,9 @@ window.onpopstate = function(e) {
 
 document.addEventListener('DOMContentLoaded', () => {
   main = _id('main');
+  { const s = window.location.search.match(/^\?([^&]+)/);
+    load_page(s ? decodeURIComponent(s[1]) : null);
+  }
   { let x = window.location.search;
     if (x.length>0 && x[0]==='?') {
       let n = x.indexOf('&',1);
