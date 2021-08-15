@@ -1,4 +1,5 @@
-<h1>Project description</h1>
+<h1>The Data Incubator project</h1>
+<h2>Project description</h2>
 <p>The recent decades have seen a rise in the popularity of board games, with
 thousands of new games being developed and published every year. With some
 games performing better on the market in terms of sparking public interest and
@@ -54,7 +55,7 @@ the expected overall reception of the game.</p>
 <p>Ultimately, a prediction of the game performance can be quantified by the
 model-estimated rating and the trends in the principal characteristics.</p>
 
-<h1>Technical details and challenges</h1>
+<h2>Technical details and challenges</h2>
 
 <p>A 1,229 MB dataset, representing 313,248 games, can be assembled using the
 BGG XML API
@@ -102,8 +103,8 @@ relatively small (12.5%) subset of the data.</p>
     model as a function of time.</li>
 </ul>
 
-<h1>Preliminary plots</h1>
-<h2>Common game mechanics</h2>
+<h2>Preliminary plots</h2>
+<h3>Common game mechanics</h3>
 <img src="https://github.com/ivankp/tdi0/raw/main/mech_freq.png" width="600">
 
 <p>This plot shows a histogram identifying the 10 most commonly used game
@@ -118,7 +119,7 @@ This may simplify the PCA later on, as rare mechanics may not hold much
 predictive power and may be discarded, reducing the dimensionality of the
 problem.</p>
 
-<h2>Average rating over time</h2>
+<h3>Average rating over time</h3>
 <img src="https://github.com/ivankp/tdi0/raw/main/mech_avg_rating.png" width="600">
 
 <p>This plots shows the average BGG rating of games published between 2000 and
@@ -149,7 +150,7 @@ created to account for this effect.</p>
 peak in the average rating of cooperative games in 2011.
 A closer look at the list of the games in that subset is need.</p>
 
-<h2>Overlap between mechanics</h2>
+<h3>Overlap between mechanics</h3>
 <img src="https://github.com/ivankp/tdi0/raw/main/mech_overlap.png" width="500">
 
 <p>The matrix above shows in color the fractions of games with each mechanics

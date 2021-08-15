@@ -13,10 +13,10 @@ const last = xs => xs[xs.length-1];
 
 const pages = [
   ['about','About me','tex'],
-  ['contact','Contact me'],
-  ['edu','Education','tex'],
+  ['contact','Contact me','sf'],
+  ['exp','Experience','tex'],
+  ['research','Research','tex'],
   ['bib','Publications','tex'],
-  ['research','Research'],
   ['tdi0','TDI project','tex']
 ];
 
@@ -73,8 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         li.href = '?'+encodeURIComponent(page);
         li.onclick = e => {
-          e.preventDefault();
-          load_page(page);
+          if (!e.ctrlKey) {
+            e.preventDefault();
+            load_page(page);
+          }
         };
       }
     }

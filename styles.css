@@ -95,6 +95,10 @@ a:hover { text-decoration: underline; }
   margin-top: 0;
 }
 
+p.ind {
+  text-indent: 1.5em;
+}
+
 .nb { white-space: nowrap; }
 
 .tex, .tex .rm {
@@ -107,6 +111,9 @@ a:hover { text-decoration: underline; }
 }
 .bf {
   font-weight: bold;
+}
+.sf {
+  font-family: sans-serif;
 }
 .sc {
   font-family: "Latin Modern Roman Caps", serif;
@@ -121,7 +128,7 @@ a:hover { text-decoration: underline; }
 .m {
   font-family: "MathJax_Math-italic", "Latin Modern Roman", "Times New Roman", serif;
   font-weight: normal;
-  font-style: italic;
+  font-style: normal;
 }
 .tex sup {
   font-size: 75%;
@@ -144,4 +151,23 @@ table.edu td {
 }
 table.edu img {
   width: 5em;
+}
+
+div.work > div { margin: 1em 0; }
+div.work p {
+  text-align: justify;
+  margin: 0.25em 0;
+}
+div.work h3 > img { height: 16pt; }
+div.work h2 {
+  display: inline-block;
+  width: 20em;
+  font-size: large;
+  font-weight: bold;
+  margin: 0;
+}
+div.work h3 {
+  font-size: medium;
+  font-weight: bold;
+  margin: 5pt 0;
 }
