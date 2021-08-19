@@ -1,4 +1,4 @@
-<h1>The Data Incubator project</h1>
+<h1>The Data Incubator project proposal</h1>
 <h2>Project description</h2>
 <p>The recent decades have seen a rise in the popularity of board games, with
 thousands of new games being developed and published every year. With some
@@ -9,8 +9,8 @@ of these characteristics evolves over time.
 The plots below demonstrate the large recent increase in the numbers of newly
 produced games.</p>
 
-<img src="https://github.com/ivankp/tdi0/raw/main/ngames_1900.png" width="350">
-<img src="https://github.com/ivankp/tdi0/raw/main/ngames_1990.png" width="350">
+<img src="https://github.com/ivankp/tdi0/raw/0/ngames_1900.png" width="350">
+<img src="https://github.com/ivankp/tdi0/raw/0/ngames_1990.png" width="350">
 
 <p>As a board gaming enthusiast, I want to see the companies producing games
 thrive. The financial success of the companies can allow them to lower the cost
@@ -30,7 +30,7 @@ as performance metrics.</p>
 
 <p>A large data set including this information can be obtained from the popular
 Board Game Geek (BGG) website
-[<a href="https://boardgamegeek.com/" target="_blank">https://boardgamegeek.com/</a>].
+[<a href="https://boardgamegeek.com/">https://boardgamegeek.com/</a>].
 
 <p>An additional characteristic of game <span class="bf">complexity</span>
 can be estimated by applying
@@ -40,7 +40,7 @@ techniques to the text of the rules of the games.</p>
 <p>Additional performance metrics can also be found. For example,
 <span class="bf">popularity</span>
 can be assessed based on Google search statistics
-[<a href="https://trends.google.com/" target="_blank">https://trends.google.com/</a>].
+[<a href="https://trends.google.com/">https://trends.google.com/</a>].
 <span class="bf">Sales</span> performance can be obtained by scraping Amazon.</p>
 
 <p>A number of meta-characteristics can be derived.
@@ -59,17 +59,17 @@ model-estimated rating and the trends in the principal characteristics.</p>
 
 <p>A 1,229 MB dataset, representing 313,248 games, can be assembled using the
 BGG XML API
-[<a href="https://boardgamegeek.com/wiki/page/BGG_XML_API" target="_blank">https://boardgamegeek.com/wiki/page/BGG_XML_API</a>].
+[<a href="https://boardgamegeek.com/wiki/page/BGG_XML_API">https://boardgamegeek.com/wiki/page/BGG_XML_API</a>].
 To do this, I wrote a <span class="tt">bash</span> script
-[<a href="https://github.com/ivankp/tdi0/blob/main/scrape.sh" target="_blank">link</a>]
+[<a href="https://github.com/ivankp/tdi0/blob/0/scrape.sh">link</a>]
 that iterated over the <span class="tt">gameid</span> numbers and downloaded
 XML data in groups of 100 games using <span class="tt">curl</span>. I then
 wrote a python script
-[<a href="https://github.com/ivankp/tdi0/blob/main/merge.py" target="_blank">link</a>]
+[<a href="https://github.com/ivankp/tdi0/blob/0/merge.py">link</a>]
 that parsed the XML files and aggregated the most relevant information about
 all the games in a single JSON file. The JSON file can be easily imported into
 a Pandas DataFrame in python and examined visually in a Jupyter notebook
-[<a href="https://github.com/ivankp/tdi0/blob/main/pandas.ipynb" target="_blank">link</a>].</p>
+[<a href="https://github.com/ivankp/tdi0/blob/0/pandas.ipynb">link</a>].</p>
 
 <p>As I came up with the project while working on the TDI fellowship challenge,
 the project is currently in the exploratory stage, in which the most relevant
@@ -105,7 +105,7 @@ relatively small (12.5%) subset of the data.</p>
 
 <h2>Preliminary plots</h2>
 <h3>Common game mechanics</h3>
-<img src="https://github.com/ivankp/tdi0/raw/main/mech_freq.png" width="600">
+<img src="https://github.com/ivankp/tdi0/raw/0/mech_freq.png" width="600">
 
 <p>This plot shows a histogram identifying the 10 most commonly used game
 mechanics. The horizontal axis shows the numbers of games making use of the
@@ -113,14 +113,14 @@ corresponding mechanics published between years 2000 and 2021 inclusively.<p>
 
 <p>The plot shows that a few mechanics are very common and account for most games.
 This is an example of the
-<a href="https://en.wikipedia.org/wiki/Pareto_principle" target="_blank" class="rm">
+<a href="https://en.wikipedia.org/wiki/Pareto_principle" class="rm">
 Pareto principle</a>.
 This may simplify the PCA later on, as rare mechanics may not hold much
 predictive power and may be discarded, reducing the dimensionality of the
 problem.</p>
 
 <h3>Average rating over time</h3>
-<img src="https://github.com/ivankp/tdi0/raw/main/mech_avg_rating.png" width="600">
+<img src="https://github.com/ivankp/tdi0/raw/0/mech_avg_rating.png" width="600">
 
 <p>This plots shows the average BGG rating of games published between 2000 and
 2021 categorized by the mechanics they make use of.</p>
@@ -151,7 +151,7 @@ peak in the average rating of cooperative games in 2011.
 A closer look at the list of the games in that subset is need.</p>
 
 <h3>Overlap between mechanics</h3>
-<img src="https://github.com/ivankp/tdi0/raw/main/mech_overlap.png" width="500">
+<img src="https://github.com/ivankp/tdi0/raw/0/mech_overlap.png" width="500">
 
 <p>The matrix above shows in color the fractions of games with each mechanics
 that make use of another mechanics for the 50 most common types of mechanics.

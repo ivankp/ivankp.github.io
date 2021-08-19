@@ -11,13 +11,34 @@ function clear(x) {
 const round = x => x.toFixed(4).replace(/\.?0*$/,'');
 const last = xs => xs[xs.length-1];
 
+function fix_link(a) {
+  let href = a.getAttribute('href');
+  if (href.startsWith('?')) {
+    href = href.substring(1);
+    a.onclick = e => {
+      if (!e.ctrlKey) {
+        e.preventDefault();
+        load_page(href);
+      }
+    };
+  } else if (href!=='.') {
+    a.target = '_blank';
+  }
+}
+function fix_all_links(x) {
+  for (const a of x.getElementsByTagName('a'))
+    fix_link(a);
+}
+
 const pages = [
   ['about','About me','tex'],
   ['contact','Contact me','sf'],
   ['exp','Experience','tex'],
   ['research','Research','tex'],
   ['bib','Publications','tex'],
-  ['tdi0','TDI project','tex']
+  ['tdi','TDI project','tex'],
+  ['tdi0',null,'tex'],
+  ['tdi1',null,'tex']
 ];
 
 let main;
@@ -36,6 +57,8 @@ function load_page(page) {
   .then(r => {
     main.innerHTML = r;
     main.className = def[2] || '';
+    fix_all_links(main);
+    number_figures(main);
     const s = window.history.state;
     ( (!s || s.page===page)
       ? window.history.replaceState
@@ -47,6 +70,13 @@ function load_page(page) {
 window.onpopstate = function(e) {
   if (e.state!==null) load_page(e.state.page);
 };
+
+function number_figures(node) {
+  for (const [i,x] of node.querySelectorAll('figure > figcaption').entries()) {
+    x.innerHTML = `Fig. ${i+1}: ` + x.innerHTML;
+    x.parentNode.id = `fig${i+1}`;
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   main = _id('main');
@@ -64,21 +94,14 @@ document.addEventListener('DOMContentLoaded', () => {
     load_page(x);
   }
   { const ul = make(_id('nav'),'ul');
+    const re_http = /^https?:\/\//;
     for (const [page,name] of pages) {
-      const li = make(ul,'li','a');
-      li.textContent = name;
-      if (page.startsWith('http')) {
-        li.href = page;
-        li.target = '_blank';
-      } else {
-        li.href = '?'+encodeURIComponent(page);
-        li.onclick = e => {
-          if (!e.ctrlKey) {
-            e.preventDefault();
-            load_page(page);
-          }
-        };
+      if (name) {
+        const a = make(ul,'li','a');
+        a.textContent = name;
+        a.href = re_http.test(page) ? page : '?'+encodeURIComponent(page);
       }
     }
   }
+  fix_all_links(document.documentElement);
 });

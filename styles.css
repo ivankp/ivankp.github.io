@@ -86,13 +86,17 @@ a:hover { text-decoration: underline; }
   text-align: justify;
   margin: 0.25em 0;
 }
-#main > ul {
+#main > ul, #main > ol {
   text-align: justify;
   margin: 0.25em 0;
   padding-left: 2.75em;
 }
 #main > :first-child {
   margin-top: 0;
+}
+
+figure {
+  text-align: center;
 }
 
 p.ind {

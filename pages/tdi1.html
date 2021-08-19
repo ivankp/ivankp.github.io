@@ -1,0 +1,240 @@
+<h1>The Data Incubator project proposal presentation</h1>
+<h1>Analysis of trends in the board gaming industry</h1>
+
+<h2>Project description</h2>
+<p>The recent decades have seen a rise in the popularity of board games, with
+thousands of new games being developed and published every year.
+The drastic increase in the number of published games in the recent decades
+is illustrated below.</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/ngames_1900.png">
+  <img src="https://github.com/ivankp/tdi0/raw/main/ngames_1990.png">
+  <figcaption>Recent increase in the number of new games.</figcaption>
+</figure>
+
+<p>As a board gaming enthusiast, I want to see the companies producing games
+thrive. The financial success of the companies can allow them to lower the cost
+of games or improve production quality, as well as to take risk with publishing
+more experimental games, thus promoting innovation and diversity in game
+design.</p>
+
+<p>An analysis, such as the one proposed here, can help identify trends in the
+market performance of games, characterized by design attributes and gameplay
+mechanics.
+A study of a number of performance metrics over time can provide a quantitative
+understanding of trends, based on which a company can formulate
+a strategy for the direction of board game design,
+development, and production.</p>
+
+<p>The objective of my analysis is to identify key metrics, which effectively
+describe the game performance, and subsequently, to develop quantitative models
+to predict these metrics from the game characteristics.
+An important aspect of my analysis is description of performance over time,
+which will allow me to capture rise or fall in demand for certain types of
+games.</p>
+
+<ul>
+<li>Identified performance metrics:
+<ol>
+  <li>Game ratings from polls</li>
+  <li>Quantity and quality of reviews</li>
+  <li>Reported game ownership</li>
+  <li>Numbers of game honors</li>
+  <li>Numbers of mentions in gaming shows</li>
+  <li>Historic search data from search engines</li>
+  <li>Historic sales data from online stores</li>
+</ol></li>
+<li>Identified game characteristics:
+<ol>
+  <li>Gameplay mechanics</li>
+  <li>Game design categories, i.e. themes, style, etc.</li>
+  <li>Expected playtime</li>
+  <li>Number of players</li>
+  <li>Target player age</li>
+  <li>Number of components</li>
+  <li>Rules complexity</li>
+</ol></li>
+</ul>
+
+<p>The final goal is to develop predictive multivariate models (neural
+networks), capable of estimating expected performance metrics for a game
+given its design characteristics.
+The predicted performance summary can be used to make decisions regarding
+production of newly designed games or allocation of efforts for development of
+new games.</p>
+
+<h2>The data</h2>
+<p>A 1,229 MB dataset, representing 313,248 games, can be assembled using the
+BGG XML API
+[<a href="https://boardgamegeek.com/wiki/page/BGG_XML_API">API</a>,
+ <a href="https://www.boardgamegeek.com/xmlapi/boardgame/217372?stats=1">sample</a>].
+To collect this data, I wrote a <span class="tt">bash</span> script
+[<a href="https://github.com/ivankp/tdi0/blob/0/scrape.sh">link</a>]
+that downloaded the data in groups of 100 games
+using <span class="tt">curl</span>.</p>
+<p>To reduce the memory footprint of the data and to facilitate its exploration
+using <span class="tt">pandas</span> in a <span class="tt">Jupyter</span>
+notebook, I consolidated the data in a single <span class="tt">JSON</span>
+file using a <span class="tt">python</span> script. At this stage, I retained
+only the quantifiable data relevant for the analysis, such as game ratings,
+poll results, game mechanics and categories, as well as other numeric
+information such as playtime duration and the number of players.</p>
+<p>In the next step, I performed data cleaning by retaining only the games with
+the following properties:</p>
+<ul>
+  <li><span class="tt">year &ge; 2000</span><br>
+  Removes games that are too old.
+  Public perception of board games as a pass time has altered a lot in the
+  last generation.
+  Fig. 1 indicates that the explosion in the number of released games started
+  around year 2000.</li>
+  <li><span class="tt">year &le; 2021</span><br>
+  Removes games that haven't been released yet, but are only anticipated.</li>
+  <li><span class="tt">rating &gt; 0</span><br>
+  Removes unrated games.</li>
+  <!-- <li>Number of specified mechanics <span class="tt">&#38;gt; 0</span><br> -->
+  <!-- Removes uncategorized games.</li> -->
+</ul>
+<p>I also consolidated synonymous attributes under common labels.</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/cutflow.svg" width="700">
+  <figcaption>Cutflow diagram.</figcaption>
+</figure>
+
+<h2>Obtained results</h2>
+<p>In order to gain familiarity with the data and reduce the initial scope of
+study, I started the analysis by investigating dependence between the game
+rating on BGG and the game attributes (mechanics and categories).</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/attrs-1.png" height="270">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/attrs-2.png" height="270">
+  <figcaption>
+    Most common mechanics (left) and categories (right) characterizing the
+    games in the cleaned BGG dataset.
+  </figcaption>
+</figure>
+
+<p>The dataset provides two types of rating: a raw rating from polls and an
+adjusted Bayes rating. The distribution of both ratings and the average as a
+function of time are shown below. As the adjusted rating exhibits an artificial
+decrease in rating of the most recent games, I decided to proceed with the raw
+rating.</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/all_ratings-2.png" height="310">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/all_ratings-1.png" height="310">
+  <figcaption>
+    Rating distributions (left) and average rating over time (right) for the
+    whole dataset.
+  </figcaption>
+</figure>
+
+<p>Looking at the average rating over time of the games with some of the most
+frequent attributes already reveals some interesting results.
+For example,
+movie and TV themed games have become competitively rated only after 2013,
+abstract strategy games' rating has dropped below that of the other games since
+2005,
+team-based games have been about average until their rating rose in the
+last two years, and
+games with hexagonal grids have always been rated well above average.
+</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_cat-18.png" width="400">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_cat-20.png" width="400">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_mech-19.png" width="400">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_mech-14.png" width="400">
+  <figcaption>
+    Average ratings of games with specific attributes over time.
+  </figcaption>
+</figure>
+
+<p>The BGG dataset contains games with 172 distinct mechanics and 84
+distinct categories. It is also obvious by inspection, as well as from the
+initial studies, that there is a substantial degree of correlation between
+these attributes.</p>
+<p>In order to investigate these correlations and to identify distinct groups
+of games I performed a principal component analysis (PCA).</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca1.png" width="450">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca2.png" width="450">
+  <figcaption>
+    Principal component analysis.
+    Left: Explained variance as a function of the number of retained dimensions.
+    Right: 2D projection of the dataset.
+  </figcaption>
+</figure>
+
+<p>The 2D projection clearly reveals a number of dense clusters.
+Interestingly, these clusters are the most populated areas withing the
+parameter space, but are not necessarily areas containing the highest rated
+games. This alone already illustrates that the most common design strategies
+often do not result in highly rated games.</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca3.png" width="450">
+  <figcaption>
+    2D PCA projection. Games colored by rating. Red color means higher rating,
+    green means lower.
+  </figcaption>
+</figure>
+
+<p>To quickly explore these clusters, I identified 8 polygonal areas by hand,
+and plotted the rating distributions of the games contained in them.
+I also made a table of the most frequent attributes in each cluster.
+This created a concise summary of the combinations of attributes ranked by the
+typically rating they yield.</p>
+
+<figure>
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca4.png" width="450">
+  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca5.png" width="450">
+  <figcaption>
+    Left: Identified clusters in the projected space of attributes.
+    Right: Rating distributions for the identified clusters.
+  </figcaption>
+</figure>
+
+<table style="font-size: xx-small;">
+<caption style="font-size: medium;">Table 1: Composition of PCA-identified clusters.</caption>
+<tr><td>group</td><td>8</td><td>5</td><td>3</td><td>1</td><td>7</td><td>6</td><td>2</td><td>4</td></tr><tr><td>mean±stdev</td><td>7.39±0.74</td><td>7.00±0.81</td><td>6.83±0.89</td><td>6.73±0.76</td><td>6.40±0.99</td><td>6.31±0.89</td><td>6.28±0.74</td><td>6.23±0.81</td></tr><tr><td>N games</td><td>733</td><td>1883</td><td>766</td><td>575</td><td>1086</td><td>4080</td><td>1268</td><td>2228</td></tr><tr><td>Mechanics</td><td><table><tr><td>100%</td><td>Dice Rolling</td></tr><tr><td>72%</td><td>Hexagon Grid</td></tr><tr><td>70%</td><td>Simulation</td></tr><tr><td>19%</td><td>Grid Movement</td></tr><tr><td>17%</td><td>Movement Points</td></tr></table></td><td><table><tr><td>19%</td><td>Tile Placement</td></tr><tr><td>13%</td><td>Area Majority / Influence</td></tr><tr><td>13%</td><td>Worker Placement</td></tr><tr><td>13%</td><td>Set Collection</td></tr><tr><td>10%</td><td>Cooperative Game</td></tr></table></td><td><table><tr><td>36%</td><td>Hand Management</td></tr><tr><td>18%</td><td>Card Drafting</td></tr><tr><td>17%</td><td>Set Collection</td></tr><tr><td>15%</td><td>Variable Player Powers</td></tr><tr><td>13%</td><td>Deck, Bag, and Pool Building</td></tr></table></td><td><table><tr><td>99%</td><td>Hand Management</td></tr><tr><td>23%</td><td>Set Collection</td></tr><tr><td>21%</td><td>Card Drafting</td></tr><tr><td>18%</td><td>Take That</td></tr><tr><td>17%</td><td>Variable Player Powers</td></tr></table></td><td><table><tr><td>89%</td><td>Dice Rolling</td></tr><tr><td>13%</td><td>Push Your Luck</td></tr><tr><td>12%</td><td>Set Collection</td></tr><tr><td>11%</td><td>Paper-and-Pencil</td></tr><tr><td>9%</td><td>Roll / Spin and Move</td></tr></table></td><td><table><tr><td>19%</td><td>Tile Placement</td></tr><tr><td>13%</td><td>Set Collection</td></tr><tr><td>9%</td><td>Auction</td></tr><tr><td>9%</td><td>Roll / Spin and Move</td></tr><tr><td>9%</td><td>Area Majority / Influence</td></tr></table></td><td><table><tr><td>99%</td><td>Hand Management</td></tr><tr><td>30%</td><td>Set Collection</td></tr><tr><td>15%</td><td>Card Drafting</td></tr><tr><td>14%</td><td>Take That</td></tr><tr><td>10%</td><td>Simultaneous Action Selection</td></tr></table></td><td><table><tr><td>24%</td><td>Set Collection</td></tr><tr><td>19%</td><td>Hand Management</td></tr><tr><td>14%</td><td>Card Drafting</td></tr><tr><td>8%</td><td>Tile Placement</td></tr><tr><td>7%</td><td>Auction</td></tr></table></td></tr><tr><td>Categories</td><td><table><tr><td>100%</td><td>Wargame</td></tr><tr><td>47%</td><td>World War II</td></tr><tr><td>8%</td><td>World War I</td></tr><tr><td>8%</td><td>Modern Warfare</td></tr><tr><td>8%</td><td>Napoleonic</td></tr></table></td><td><table><tr><td>55%</td><td>Expansion for Base-game</td></tr><tr><td>13%</td><td>Fantasy</td></tr><tr><td>13%</td><td>Economic</td></tr><tr><td>10%</td><td>Medieval</td></tr><tr><td>8%</td><td>Deduction</td></tr></table></td><td><table><tr><td>71%</td><td>Card Game</td></tr><tr><td>43%</td><td>Expansion for Base-game</td></tr><tr><td>20%</td><td>Fantasy</td></tr><tr><td>9%</td><td>Party Game</td></tr><tr><td>8%</td><td>Economic</td></tr></table></td><td><table><tr><td>100%</td><td>Card Game</td></tr><tr><td>37%</td><td>Expansion for Base-game</td></tr><tr><td>32%</td><td>Fantasy</td></tr><tr><td>18%</td><td>Humor</td></tr><tr><td>13%</td><td>Bluffing</td></tr></table></td><td><table><tr><td>51%</td><td>Dice</td></tr><tr><td>14%</td><td>Children's Game</td></tr><tr><td>12%</td><td>Wargame</td></tr><tr><td>12%</td><td>Animals</td></tr><tr><td>8%</td><td>Action / Dexterity</td></tr></table></td><td><table><tr><td>17%</td><td>Party Game</td></tr><tr><td>16%</td><td>Abstract Strategy</td></tr><tr><td>13%</td><td>Economic</td></tr><tr><td>13%</td><td>Children's Game</td></tr><tr><td>11%</td><td>Action / Dexterity</td></tr></table></td><td><table><tr><td>100%</td><td>Card Game</td></tr><tr><td>16%</td><td>Humor</td></tr><tr><td>13%</td><td>Party Game</td></tr><tr><td>11%</td><td>Bluffing</td></tr><tr><td>11%</td><td>Animals</td></tr></table></td><td><table><tr><td>81%</td><td>Card Game</td></tr><tr><td>16%</td><td>Party Game</td></tr><tr><td>10%</td><td>Bluffing</td></tr><tr><td>9%</td><td>Animals</td></tr><tr><td>9%</td><td>Humor</td></tr></table></td></tr></table>
+
+<h2>Further development</h2>
+<p>The next stage of the project is to train neural networks to create a
+predictive model for the rating.
+Once this is done for the rating, models for other performance metrics can be
+trained.</p>
+
+<p>Independent neural networks can be trained to predict different performance
+parameters (rating, sales, searches).</p>
+
+<p>Performance as a function of time can also be modeled, by either training
+independent NNs on yearly subsets of data, or by training a single NN to
+output estimated performance for a number of years.</p>
+
+<p>The PCA can be used as an input to the NN models.</p>
+
+<h2>Conclusion</h2>
+<p>Even in the exploratory stage, the analysis has reveled a number of patterns
+that can yield actionable conclusions.
+These include:</p>
+<ol>
+  <li>Most games designed with certain specific, but very common, combinations
+    of attributes are rated measurably lower on average than other ones.</li>
+  <li>The average rating of games with hexagonal grids has always been
+    higher.</li>
+  <li>The average rating of abstract strategy games has been lower than that of
+    other games since 2005.</li>
+</ol>
+
+<p>The richness of features of the explored dataset, significant correlations,
+and statistically identified features of the parameter space suggest that
+the problem has great potential to yield to more complicated multivariate
+analysis techniques.
+Incorporation of the remaining identified game characteristics and training of
+neural network models will reveal the extent to which expected game rating
+or any of the other identified metrics can be successfully predicted.</p>
