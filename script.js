@@ -1,7 +1,10 @@
 const _id = id => document.getElementById(id);
-function make(p,...tags) {
+function make(p,tag1,...tags) {
+  { const x = document.createElement(tag1);
+    p = p!==null ? p.appendChild(x) : x;
+  }
   for (const t of tags)
-    p = p.appendChild(document.createElement(t))
+    p = p.appendChild(document.createElement(t));
   return p;
 }
 function clear(x) {
@@ -41,7 +44,7 @@ const pages = [
   ['tdi1',null,'tex']
 ];
 
-let main;
+let main, nav, burger;
 function load_page(page) {
   let def = null;
   if (page) def = pages.find(x => x[0]===page);
@@ -78,8 +81,30 @@ function number_figures(node) {
   }
 }
 
+let wide_layout = null;
+function layout() {
+  if (window.innerWidth > 500) {
+    if (wide_layout!==true) {
+      wide_layout = true;
+      main.parentNode.insertBefore(nav,main);
+      main.parentNode.className = 'grid';
+      burger.style.display = 'none';
+      nav.style.display = null;
+    }
+  } else {
+    if (wide_layout!==false) {
+      wide_layout = false;
+      main.parentNode.className = 'pad';
+      nav.style.display = 'none';
+      burger.style.display = null;
+      burger.appendChild(nav);
+    }
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   main = _id('main');
+  burger = _id('burger');
   { const s = window.location.search.match(/^\?([^&]+)/);
     load_page(s ? decodeURIComponent(s[1]) : null);
   }
@@ -93,15 +118,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     load_page(x);
   }
-  { const ul = make(_id('nav'),'ul');
+  { nav = make(null,'ul');
+    nav.id = 'nav';
+    nav.style.display = 'none';
     const re_http = /^https?:\/\//;
     for (const [page,name] of pages) {
       if (name) {
-        const a = make(ul,'li','a');
+        const a = make(nav,'li','a');
         a.textContent = name;
         a.href = re_http.test(page) ? page : '?'+encodeURIComponent(page);
       }
     }
+    burger.onclick = (e) => {
+      nav.style.display = nav.style.display ? null : 'none';
+    };
   }
+  layout();
   fix_all_links(document.documentElement);
+
+  window.addEventListener('resize',layout);
 });
