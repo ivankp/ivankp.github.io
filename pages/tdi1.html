@@ -8,8 +8,8 @@ The drastic increase in the number of published games in the recent decades
 is illustrated below.</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/ngames_1900.png">
-  <img src="https://github.com/ivankp/tdi0/raw/main/ngames_1990.png">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/ngames_1900.png">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/ngames_1990.png">
   <figcaption>Recent increase in the number of new games.</figcaption>
 </figure>
 
@@ -70,7 +70,7 @@ BGG XML API
 [<a href="https://boardgamegeek.com/wiki/page/BGG_XML_API">API</a>,
  <a href="https://www.boardgamegeek.com/xmlapi/boardgame/217372?stats=1">sample</a>].
 To collect this data, I wrote a <span class="tt">bash</span> script
-[<a href="https://github.com/ivankp/tdi0/blob/0/scrape.sh">link</a>]
+[<a href="https://github.com/ivankp/tdi_capstone/blob/0/scrape.sh">link</a>]
 that downloaded the data in groups of 100 games
 using <span class="tt">curl</span>.</p>
 <p>To reduce the memory footprint of the data and to facilitate its exploration
@@ -99,7 +99,7 @@ the following properties:</p>
 <p>I also consolidated synonymous attributes under common labels.</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/cutflow.svg" width="700">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/cutflow.svg" width="700">
   <figcaption>Cutflow diagram.</figcaption>
 </figure>
 
@@ -109,8 +109,8 @@ study, I started the analysis by investigating dependence between the game
 rating on BGG and the game attributes (mechanics and categories).</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/attrs-1.png" height="270">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/attrs-2.png" height="270">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/attrs-1.png" height="270">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/attrs-2.png" height="270">
   <figcaption>
     Most common mechanics (left) and categories (right) characterizing the
     games in the cleaned BGG dataset.
@@ -124,8 +124,8 @@ decrease in rating of the most recent games, I decided to proceed with the raw
 rating.</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/all_ratings-2.png" height="310">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/all_ratings-1.png" height="310">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/all_ratings-2.png" height="310">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/all_ratings-1.png" height="310">
   <figcaption>
     Rating distributions (left) and average rating over time (right) for the
     whole dataset.
@@ -144,10 +144,10 @@ games with hexagonal grids have always been rated well above average.
 </p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_cat-18.png" width="400">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_cat-20.png" width="400">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_mech-19.png" width="400">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/rating_by_mech-14.png" width="400">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/rating_by_cat-18.png" width="400">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/rating_by_cat-20.png" width="400">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/rating_by_mech-19.png" width="400">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/rating_by_mech-14.png" width="400">
   <figcaption>
     Average ratings of games with specific attributes over time.
   </figcaption>
@@ -161,8 +161,8 @@ these attributes.</p>
 of games I performed a principal component analysis (PCA).</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca1.png" width="450">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca2.png" width="450">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/pca1.png" width="450">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/pca2.png" width="450">
   <figcaption>
     Principal component analysis.
     Left: Explained variance as a function of the number of retained dimensions.
@@ -177,7 +177,7 @@ games. This alone already illustrates that the most common design strategies
 often do not result in highly rated games.</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca3.png" width="450">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/pca3.png" width="450">
   <figcaption>
     2D PCA projection. Games colored by rating. Red color means higher rating,
     green means lower.
@@ -191,8 +191,8 @@ This created a concise summary of the combinations of attributes ranked by the
 typically rating they yield.</p>
 
 <figure>
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca4.png" width="450">
-  <img src="https://github.com/ivankp/tdi0/raw/main/fig/pca5.png" width="450">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/pca4.png" width="450">
+  <img src="https://github.com/ivankp/tdi_capstone/raw/main/1/fig/pca5.png" width="450">
   <figcaption>
     Left: Identified clusters in the projected space of attributes.
     Right: Rating distributions for the identified clusters.
