@@ -1,16 +1,15 @@
-const _id = id => document.getElementById(id);
-function make(p,tag1,...tags) {
-  { const x = document.createElement(tag1);
-    p = p!==null ? p.appendChild(x) : x;
-  }
+const $id = id => document.getElementById(id);
+const $ = (p,tag1,...tags) => {
+  tag1 = document.createElement(tag1);
+  p = p!==null ? p.appendChild(tag1) : tag1;
   for (const t of tags)
     p = p.appendChild(document.createElement(t));
   return p;
-}
-function clear(x) {
-  for (let c; c = x.firstChild; ) x.removeChild(c);
-  return x;
-}
+};
+const clear = p => {
+  for (let x; x = p.lastChild; ) x.remove();
+  return p;
+};
 const round = x => x.toFixed(4).replace(/\.?0*$/,'');
 const last = xs => xs[xs.length-1];
 
@@ -34,14 +33,11 @@ function fix_all_links(x) {
 }
 
 const pages = [
-  ['about','About me','tex'],
-  ['contact','Contact me','sf'],
-  ['exp','Experience','tex'],
-  ['research','Research','tex'],
-  ['bib','Publications','tex'],
-  ['tdi','TDI project','tex'],
-  ['tdi0',null,'tex'],
-  ['tdi1',null,'tex']
+  ['about','About me'],
+  ['work','Experience'],
+  ['skills','Skills'],
+  ['edu','Education'],
+  ['bib','Publications']
 ];
 
 let main, nav, burger;
@@ -52,14 +48,13 @@ function load_page(page) {
     def = pages[0];
     page = def[0];
   }
-  fetch('pages/'+page+'.html', { method: 'GET' })
+  fetch('pages/'+page+'.html')
   .then(r => {
     if (r.ok) return r.text();
     throw new Error(`${page}: response status ${r.status}`);
   })
   .then(r => {
     main.innerHTML = r;
-    main.className = def[2] || '';
     fix_all_links(main);
     number_figures(main);
     const s = window.history.state;
@@ -87,7 +82,7 @@ function layout() {
     if (wide_layout!==true) {
       wide_layout = true;
       main.parentNode.insertBefore(nav,main);
-      main.parentNode.className = 'grid';
+      main.parentNode.className = 'main-grid';
       burger.style.display = 'none';
       nav.style.display = null;
     }
@@ -103,8 +98,8 @@ function layout() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  main = _id('main');
-  burger = _id('burger');
+  main = $id('main');
+  burger = $id('burger');
   { const s = window.location.search.match(/^\?([^&]+)/);
     load_page(s ? decodeURIComponent(s[1]) : null);
   }
@@ -118,13 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     load_page(x);
   }
-  { nav = make(null,'ul');
+  { nav = $(null,'ul');
     nav.id = 'nav';
+    nav.classList.add('sf');
     nav.style.display = 'none';
     const re_http = /^https?:\/\//;
     for (const [page,name] of pages) {
       if (name) {
-        const a = make(nav,'li','a');
+        const a = $(nav,'li','a');
         a.textContent = name;
         a.href = re_http.test(page) ? page : '?'+encodeURIComponent(page);
       }
